@@ -1,23 +1,78 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
 
 function App() {
-  return (
+  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const operations=["+","-","*","/"];
+  const [firstNumber, setfirstNumber] = useState("");
+  const[secondNumber, setSecondNumber]=useState("")
+  const[operation, setOperation]= useState("");
+  const[result,setResult]= useState(0);
+  
+  useEffect(()=>{
+    // console.log(Number(currentOperation));
+    console.log(result);
+  },[result]);
+
+  const clickNumbers=(val)=>{
+    if(operation==""){
+    setfirstNumber(firstNumber+val);
+  }
+  else{
+    setSecondNumber(secondNumber+val);
+  }
+}
+     const clickOperartion=(val)=>{
+      setOperation(val);
+     }
+     function performOperartion(){
+      switch(operation){
+        case"+":
+        setResult(Number(firstNumber)+Number(secondNumber));
+        break;
+        case"-":
+        setResult(Number(firstNumber)-Number(secondNumber));
+        break;
+        case"*":
+        setResult(Number(firstNumber)*Number(secondNumber));
+        break;
+        case"/":
+        setResult(Number(firstNumber)/Number(secondNumber));
+        break;
+      }
+     }
+    
+ return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="calculator">
+        <div className="display">
+          <h1>
+          {firstNumber}
+         {operation}
+         {secondNumber}={result}
+          </h1>
+        </div>
+      <div className="buttons">
+        <div className="leftSide">
+          <div id="seeResult" onClick={performOperartion}>
+            see result
+          </div>
+          <div className="numbers">
+            {numbers.map((val, key) => {
+              return <div id="individualnumber" onClick={()=>{clickNumbers(val)}}>{val}</div>;
+            })}
+          </div>
+        </div>
+        <div className="rightSide">
+          {
+            operations.map((val,key)=>{
+              return <div id="operation" onClick={()=>{clickOperartion(val)}}>{val}
+             </div>
+            })
+          }
+         </div>
+      </div>
+      </div>
     </div>
   );
 }
